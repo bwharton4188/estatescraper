@@ -36,21 +36,21 @@ class AuctionDOTcom(Spider):
         listings =  sel.xpath('//div[@class="contentDetail searchResult"]')
         for listing in listings:
 #             item = AuctionDOTcomItems()
-# 
+#   
 #             item['propertyID'] = ''.join(set(listing.xpath('./@property-id').extract()))
+#             yield item
 #             print "item['propertyID'] = ", item['propertyID'] #333
             item = AuctionDOTcomGetItems(listing)
-
-        ################
-        # DEMONSTRATTION ONLY
+        ####### DEMONSTRATTION ONLY ###########
             print "######################################"            
             for i in item:
                 print i + ": " + str(item[i])
+        ####### DEMONSTRATTION ONLY ###########
+            yield item
         
-        next = set(sel.xpath('//a[contains(text(),"Next")]//@href').extract())
-
-        for i in next:
-            yield Request("http://%s/%s" % (urlparse.urlparse(response.url).hostname, i), callback=self.parse)
+#         next = set(sel.xpath('//a[contains(text(),"Next")]//@href').extract())
+#         for i in next:
+#             yield Request("http://%s/%s" % (urlparse.urlparse(response.url).hostname, i), callback=self.parse)
 
 
 if __name__ == "__main__":

@@ -7,28 +7,81 @@ from csv import DictWriter
 
 class EstatescraperXLSwriter(object):
     def __init__(self):
-        print "Ive started the __init__ in the pipeline" #333
-
-        self.brandCategoryCsv = csv.writer(open('test.csv', 'wb'),
+        self.Csv = csv.writer(open('test.csv', 'wb'),
         delimiter=',', 
         quoting=csv.QUOTE_MINIMAL)
-        self.brandCategoryCsv.writerow(['Property ID', 'Asset Type'])
+        self.Csv.writerow(['propertyID',
+                            'itemNum',
+                            'ftNum',
+                            'assetType',
+                            'propertyType',
+                            'county',
+                            'saleTime',
+                            'auctionDate',
+                            'saleLocation',
+                            'openingBid',
+                            'previousValue',
+                            'bedrooms',
+                            'bathrooms',
+                            'lotSize',
+                            'fullAddress',
+                            'occupancyStatus',
+                            'datailLink'])
 
     def open_spider(self, spider):
-        print "Hit open_spider in EstatescraperXLSwriter" #333
+        pass
     
     def process_item(self, item, spider):
-        print "attempting to run process_item" #333
-        self.brandCategoryCsv.writerow([item['propertyID'],
-                                        item['assetType']])
+        # Check that all item keys exist in this run
+        _list = []
+        for _key in ('propertyID',
+                    'itemNum',
+                    'ftNum',
+                    'assetType',
+                    'propertyType',
+                    'county',
+                    'saleTime',
+                    'auctionDate',
+                    'saleLocation',
+                    'openingBid',
+                    'previousValue',
+                    'bedrooms',
+                    'bathrooms',
+                    'lotSize',
+                    'fullAddress',
+                    'occupancyStatus',
+                    'datailLink',):
+            try:
+                _list.append(str(item[_key]))
+            except KeyError, e:
+                item[_key] = 'Unavailable'
+                _list.append(str(item[_key]))
+                
+        self.Csv.writerow(_list)
+#                                         item['propertyID'],
+#                                         item['itemNum'],
+#                                         item['ftNum'],
+#                                         item['assetType'],
+#                                         item['propertyType'],
+#                                         item['county'],
+#                                         item['saleTime'],
+#                                         item['auctionDate'],
+#                                         item['saleLocation'],
+#                                         item['openingBid'],
+#                                         item['previousValue'],
+#                                         item['bedrooms'],
+#                                         item['bathrooms'],
+#                                         item['lotSize'],
+#                                         item['fullAddress'],
+#                                         item['occupancyStatus'],
+#                                         item['datailLink'],
+#                                         ])
         return item
 
     def close_spider(self, spider):
-        print "Hit close_spider in EstatescraperXLSwriter" #333
         pass
 
 
 if __name__ == "__main__":
-    
     o = EstatescraperXLSwriter()
     
