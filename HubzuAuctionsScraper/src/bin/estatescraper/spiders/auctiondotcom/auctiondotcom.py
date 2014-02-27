@@ -1,7 +1,9 @@
-
-from scrapy.spider import Spider
-from scrapy.selector import Selector
+from scrapy.xlib.pydispatch import dispatcher
 from scrapy.http import Request
+from scrapy.selector import Selector
+from scrapy import signals
+from scrapy.spider import Spider
+
 from auctiondotcomurls import AuctionDOTcomURLs
 from auctiondotcomitems import AuctionDOTcomItems
 from auctiondotcomgetitems import AuctionDOTcomGetItems
@@ -24,12 +26,19 @@ class AuctionDOTcom(Spider):
         self.start_urls = AuctionDOTcomURLs(limit, miles, zip, asset_types, 
                                             auction_types, property_types)
 
-    def parse(self, response):
-        print self.start_urls #333
+        dispatcher.connect(self.testsignal, signals.item_scraped) 
 
+    def testsignal(self):
+        print "in csvwrite" #333
+        
+    def parse(self, response):
         sel = Selector(response)
         listings =  sel.xpath('//div[@class="contentDetail searchResult"]')
         for listing in listings:
+#             item = AuctionDOTcomItems()
+# 
+#             item['propertyID'] = ''.join(set(listing.xpath('./@property-id').extract()))
+#             print "item['propertyID'] = ", item['propertyID'] #333
             item = AuctionDOTcomGetItems(listing)
 
         ################

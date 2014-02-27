@@ -288,5 +288,4 @@ if __name__ == "__main__":
                         auction_types = "commercial residential notes land",
                         property_types = "condo townhouse single family Multi Family Retail Office Industrial Hotel Mobile Home+Park Self Storage Mixed Use  Residential Special Purpose",
                         )
-    print o
     

@@ -1,5 +1,4 @@
 from auctiondotcomitems import AuctionDOTcomItems
-from lib import groupiter
 
 import re
 

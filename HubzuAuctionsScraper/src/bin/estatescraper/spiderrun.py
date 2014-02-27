@@ -6,6 +6,9 @@ from scrapy.utils.project import get_project_settings
 class SpiderRun:
     def __init__(self, spider):
         settings = get_project_settings()
+        mySettings = {'ITEM_PIPELINES': {'estatescraper.pipelines.EstatescraperXLSwriter':300}} 
+        settings.overrides.update(mySettings)
+
         crawler = Crawler(settings)
         crawler.signals.connect(reactor.stop, signal=signals.spider_closed)
         crawler.configure()
@@ -14,9 +17,10 @@ class SpiderRun:
 #         log.start()
         reactor.run() # the script will block here until the spider_closed signal was sent
         self.cleanup()
-        
+
     def cleanup(self):
-        print "SpiderRun done"
+        print "SpiderRun done" #333
+        pass
         
 if __name__ == "__main__":
     from estatescraper import AuctionDOTcom
